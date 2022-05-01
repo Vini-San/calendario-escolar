@@ -1,0 +1,22 @@
+SELECT 
+    calendars.id,
+    IF(calendars.idEventdatebyyearandbyinstution IS NULL,
+        holidays.name,
+        events.name) AS name,
+    years.year,
+    bimesters.name AS nameBimesters
+FROM
+    calendars
+        INNER JOIN
+    bimesters ON calendars.idBimester = bimesters.id
+        INNER JOIN
+    years ON bimesters.idYear = years.id
+        INNER JOIN
+    holidaydatesbyyear ON calendars.idHolidaydatebyyear = holidaydatesbyyear.id
+        INNER JOIN
+    holidays ON holidaydatesbyyear.idHoliday = holidays.id
+        INNER JOIN
+    eventdatesbyyearandbyinstitution ON calendars.idEventdatebyyearandbyinstution = eventdatesbyyearandbyinstitution.id
+        INNER JOIN
+    events ON eventdatesbyyearandbyinstitution.idEvent = events.id
+ORDER BY year ASC , nameBimesters ASC , name ASC
