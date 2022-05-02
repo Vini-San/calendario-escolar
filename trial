@@ -1,0 +1,13 @@
+SELECT c.id,
+if(c.idEventdatebyyearandbyinstution IS NULL,
+h.name,
+e.name
+) AS NAME,
+y.year
+ FROM calendars c
+LEFT JOIN eventdatesbyyearandbyinstitution eyi ON eyi.id=c.idEventdatebyyearandbyinstution
+INNER JOIN `events` e ON e.id=eyi.idEvent
+INNER JOIN years y ON eyi.idYear = y.id
+INNER JOIN institutions i ON eyi.idInstitution=i.id
+INNER JOIN holidaydatesbyyear hdy on hdy.idYear = y.id
+INNER JOIN holidays h ON h.id = hdy.idHoliday;
